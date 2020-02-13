@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Face Detection Demo</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- adobe font -->
+  <link rel="stylesheet" href="https://use.typekit.net/mvw1lff.css">
+  <style>
+    .picture-container {
+      position: relative;
+      width: 600px;
+      height: auto;
+      margin: 20px auto;
+      border: 5px solid #fff;
+    }
+
+    .picture {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .face {
+      position: absolute;
+      border: 5px solid #F50808;
+    }
+  </style>
+</head>
+
+<body>
+  <section>
+    <div>
+      <h1> Face Detection Demo </h1>
+    </div>
+  </section>
+
+    <!-- <div class="picture-container">
+        <img id="picture" class="picture" src="img/picture.jpg">
+    </div> -->
+
+
+
+    <section id="picture-demo">
+      <div id="obama">
+        <div class="picture-container">
+          <img id="picture" class="picture" src="img/obama-test.jpg">
+        </div>
+        <!-- <div class="picture-container">
+          <img id="picture" class="picture" src="img/tyler-test.png">
+        </div> -->
+      </div>
+      <div id="cena">
+        <div class="picture-container">
+          <img id="picture" class="picture" src="img/john-cena-test.png">
+        </div>
+      </div>
+    </section>
+
+
+
+    <a id="try-it" href="#">
+      <img class="button-try" src="img/click-here.png">
+    </a>
+
+    <section>
+      <div>
+        <h2> Style Needed </h2>
+      </div>
+      <div class="style-info">
+        <img id="style-code" src="img/styles-needed.png">
+        <h3> This code goes in your <span>head</span> tag. This identifies different classes set up by default for the picture container, picture, and the face identification border and lets you make quick CSS changes to each. </h3>
+      </div>
+    </section>
+
+
+
+
+
+
+
+    <section>
+      <div>
+        <h2> Classes and ID's Needed </h2>
+      </div>
+      <div class="code-info">
+        <img id="div-code" src="img/class-id-code.png">
+        <h3> These are preset classes and ids from the source files. Keep those and replace the source with your image. </h3>
+      </div>
+    </section>
+
+    <section>
+      <div>
+        <h2> Scripts Needed </h2>
+      </div>
+      <div class="code-info">
+        <img id="script-code" src="img/script-needed.png">
+        <h3> These are the scripts needed. The first script links jquery and must be on top of the others. The second links the face detection and the last two are needed to help detect faces. The script below <span>"ccv.js"</span> calls out global jquery functions that are needed to help identify faces by connecting back to the main three required script files. Also, inside <span>"jquery.facedetection.js"</span> is where you can edit the amount of faces it will detect in a single image. </h3>
+      </div>
+    </section>
+
+
+
+    <section>
+      <div>
+        <h2> <span>Disclaimer</span> </h2>
+        <h3>Depending on the image, the face detection will not work. The faces must be clear and easily visible, however after my own testing I found some images that are like this still do not work. Also, when editing how many faces it will detect in <span>"jquery.facedetection.js"</span>,  you might have to increase or decrease the interval number despite not having that number of faces. For example, the image of Barack Obama has an interval set to "2" despite there only being one face to detect.</h3>
+      </div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery.facedetection.js"></script>
+    <script src="js/cascade.js"></script>
+    <script src="js/ccv.js"></script>
+
+
+    <script>
+      /* global $ */
+      $(function() {
+        "use strict";
+
+        $('#try-it').click(function(e) {
+          e.preventDefault();
+
+          $('.face').remove();
+
+          $('#picture').faceDetection({
+            complete: function(faces) {
+              for (var i = 0; i < faces.length; i++) {
+                $('<div>', {
+                    'class': 'face',
+                    'css': {
+                      'position': 'absolute',
+                      'left': faces[i].x * faces[i].scaleX + 'px',
+                      'top': faces[i].y * faces[i].scaleY + 'px',
+                      'width': faces[i].width * faces[i].scaleX + 'px',
+                      'height': faces[i].height * faces[i].scaleY + 'px'
+                    }
+                  })
+                  .insertAfter(this);
+              }
+            },
+            error: function(code, message) {
+              alert('Error: ' + message);
+            }
+          });
+        });
+      });
+    </script>
+
+
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>
